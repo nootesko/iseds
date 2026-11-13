@@ -90,44 +90,6 @@
     document.body.removeChild(t); return ok;
   }
 
-  /* ---------- Modal da política de privacidade ---------- */
-  document.querySelectorAll("[data-modal]").forEach(function (link) {
-    var modal = document.getElementById(link.getAttribute("data-modal"));
-    if (!modal || typeof modal.showModal !== "function" || !window.fetch) return; // sem suporte: segue o link
-    var corpo = modal.querySelector("[data-conteudo]");
-    var carregado = false;
-    function carregar() {
-      if (carregado) return Promise.resolve();
-      return fetch(corpo.getAttribute("data-conteudo")).then(function (r) {
-        if (!r.ok) throw new Error(r.status);
-        return r.text();
-      }).then(function (html) {
-        var doc = new DOMParser().parseFromString(html, "text/html");
-        var prosa = doc.querySelector(".prosa");
-        if (!prosa) throw new Error("sem conteúdo");
-        corpo.innerHTML = prosa.innerHTML;
-        carregado = true;
-      });
-    }
-    function fechar() { modal.close(); }
-    link.addEventListener("click", function (e) {
-      e.preventDefault();
-      carregar().then(function () {
-        modal.showModal();
-        document.documentElement.classList.add("modal-aberto");
-        corpo.scrollTop = 0;
-      }, function () { window.location.href = link.href; }); // falhou (ex.: aberto como arquivo): vai para a página
-    });
-    modal.addEventListener("close", function () { document.documentElement.classList.remove("modal-aberto"); link.focus(); });
-    modal.querySelectorAll("[data-fechar]").forEach(function (b) { b.addEventListener("click", fechar); });
-    modal.querySelector("[data-concordar]").addEventListener("click", function () {
-      try { localStorage.setItem("privacidade-concordou", new Date().toISOString()); } catch (err) { /* sem armazenamento: só fecha */ }
-      fechar();
-    });
-    // Clique fora da caixa fecha
-    modal.addEventListener("click", function (e) { if (e.target === modal) fechar(); });
-  });
-
   /* ---------- Filtros da página de transparência ---------- */
   var filtros = document.querySelectorAll(".filtro");
   if (filtros.length) {
