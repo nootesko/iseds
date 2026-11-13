@@ -225,6 +225,7 @@ h3 { font-size: 1.25rem; line-height: 1.25; font-weight: 650; letter-spacing: -.
 .rodape__legal { margin-top: 56px; padding-top: 24px; border-top: 1px solid rgba(255,255,255,.12); display: flex; flex-wrap: wrap; gap: 8px 24px; justify-content: space-between; font-size: .85rem; color: #9fabbd; }
 .rodape__credito { white-space: nowrap; }
 /* Logo alinhado pelo corpo das letras (o "t" sobe acima da altura-x), não pela caixa da imagem */
+.rodape__credito a:hover img { opacity: .85; }
 .rodape__credito img { height: 18px; width: auto; display: inline-block; vertical-align: -3px; margin-left: 4px; }
 
 /* ---------- Páginas internas ---------- */
